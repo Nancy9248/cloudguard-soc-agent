@@ -1,0 +1,3 @@
+# Requirements for AI SOC Agent
+google-genai
+
