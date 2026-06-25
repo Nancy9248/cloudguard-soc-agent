@@ -57,7 +57,7 @@ Follow these steps to run CloudGuard locally on your system:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/cloudguard-soc-agent.git
+git clone https://github.com/Nancy9248/cloudguard-soc-agent.git
 cd cloudguard-soc-agent
 ```
 
