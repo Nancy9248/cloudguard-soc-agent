@@ -1,0 +1,161 @@
+{
+  "_comment": "This file contains 6 mock AWS CloudTrail log events for testing the AI SOC Agent. It includes 3 normal/safe events (S3 listing, standard Console login with MFA, normal API call) and 3 suspicious events (unsecured Root Console login, privilege escalation via PutUserPolicy, and a deletion of a Security Group).",
+  "Records": [
+    {
+      "eventVersion": "1.08",
+      "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "AIDACKQMADDMX11111111",
+        "arn": "arn:aws:iam::123456789012:user/dev-user-bob",
+        "accountId": "123456789012",
+        "userName": "dev-user-bob"
+      },
+      "eventTime": "2026-06-23T10:15:30Z",
+      "eventSource": "s3.amazonaws.com",
+      "eventName": "ListBuckets",
+      "awsRegion": "us-west-2",
+      "sourceIPAddress": "192.0.2.55",
+      "userAgent": "aws-cli/2.4.27 Python/3.8.8 Windows/10",
+      "requestParameters": null,
+      "responseElements": null,
+      "additionalEventData": {
+        "SignatureVersion": "SigV4",
+        "CipherSuite": "ECDHE-RSA-AES128-GCM-SHA256",
+        "AuthenticationMethod": "AuthHeader"
+      },
+      "readOnly": true,
+      "eventType": "AwsApiCall",
+      "managementEvent": true,
+      "recipientAccountId": "123456789012"
+    },
+    {
+      "eventVersion": "1.08",
+      "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "AIDACKQMADDMX22222222",
+        "arn": "arn:aws:iam::123456789012:user/admin-alice",
+        "accountId": "123456789012",
+        "userName": "admin-alice"
+      },
+      "eventTime": "2026-06-23T11:02:15Z",
+      "eventSource": "signin.amazonaws.com",
+      "eventName": "ConsoleLogin",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "198.51.100.12",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "requestParameters": null,
+      "responseElements": {
+        "ConsoleLogin": "Success"
+      },
+      "additionalEventData": {
+        "LoginTo": "https://console.aws.amazon.com/",
+        "MFAUsed": "Yes"
+      },
+      "eventType": "AwsConsoleSignIn",
+      "managementEvent": true,
+      "recipientAccountId": "123456789012"
+    },
+    {
+      "eventVersion": "1.08",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "principalId": "AROACKQMADDMX33333333:monitoring-session",
+        "arn": "arn:aws:sts::123456789012:assumed-role/EC2MonitoringRole/monitoring-session",
+        "accountId": "123456789012",
+        "accessKeyId": "ASIAIOSFODNN7EXAMPLE"
+      },
+      "eventTime": "2026-06-23T11:45:00Z",
+      "eventSource": "ec2.amazonaws.com",
+      "eventName": "DescribeInstances",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "10.0.1.50",
+      "userAgent": "aws-sdk-go/1.40.45 Linux/5.4.0-105-generic",
+      "requestParameters": {
+        "instancesSet": {},
+        "filterSet": {}
+      },
+      "responseElements": null,
+      "readOnly": true,
+      "eventType": "AwsApiCall",
+      "managementEvent": true,
+      "recipientAccountId": "123456789012"
+    },
+    {
+      "eventVersion": "1.08",
+      "userIdentity": {
+        "type": "Root",
+        "principalId": "123456789012",
+        "arn": "arn:aws:iam::123456789012:root",
+        "accountId": "123456789012"
+      },
+      "eventTime": "2026-06-23T12:05:44Z",
+      "eventSource": "signin.amazonaws.com",
+      "eventName": "ConsoleLogin",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.111",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36",
+      "requestParameters": null,
+      "responseElements": {
+        "ConsoleLogin": "Success"
+      },
+      "additionalEventData": {
+        "LoginTo": "https://console.aws.amazon.com/",
+        "MFAUsed": "No"
+      },
+      "eventType": "AwsConsoleSignIn",
+      "managementEvent": true,
+      "recipientAccountId": "123456789012"
+    },
+    {
+      "eventVersion": "1.08",
+      "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "AIDACKQMADDMX44444444",
+        "arn": "arn:aws:iam::123456789012:user/temp-contractor",
+        "accountId": "123456789012",
+        "userName": "temp-contractor"
+      },
+      "eventTime": "2026-06-23T12:15:22Z",
+      "eventSource": "iam.amazonaws.com",
+      "eventName": "PutUserPolicy",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "198.51.100.85",
+      "userAgent": "aws-cli/2.0.0 Python/3.7.3",
+      "requestParameters": {
+        "userName": "temp-contractor",
+        "policyName": "AdminPrivileges",
+        "policyDocument": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":\"*\",\"Resource\":\"*\"}]}"
+      },
+      "responseElements": null,
+      "eventType": "AwsApiCall",
+      "managementEvent": true,
+      "recipientAccountId": "123456789012"
+    },
+    {
+      "eventVersion": "1.08",
+      "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "AIDACKQMADDMX55555555",
+        "arn": "arn:aws:iam::123456789012:user/unknown-api-service",
+        "accountId": "123456789012",
+        "userName": "unknown-api-service"
+      },
+      "eventTime": "2026-06-23T12:22:10Z",
+      "eventSource": "ec2.amazonaws.com",
+      "eventName": "DeleteSecurityGroup",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "198.51.100.99",
+      "userAgent": "Boto3/1.21.0 Python/3.9.2",
+      "requestParameters": {
+        "groupId": "sg-0abc123def456gh78"
+      },
+      "responseElements": {
+        "requestId": "6cf763a8-a5be-4311-8977-8fa0example",
+        "_return": true
+      },
+      "eventType": "AwsApiCall",
+      "managementEvent": true,
+      "recipientAccountId": "123456789012"
+    }
+  ]
+}

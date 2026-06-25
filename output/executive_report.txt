@@ -1,0 +1,70 @@
+============================================================
+EXECUTIVE SECURITY AUDIT REPORT
+Date: 2026-06-23
+Classification: Internal Use Only
+============================================================
+
+1. OVERALL RISK SUMMARY
+------------------------------------------------------------
+Today's automated security audit analyzed CloudTrail log records and identified
+a total of 3 security issues that require management attention:
+ - 2 CRITICAL priority threat(s), 1 HIGH priority threat(s).
+Action is required to mitigate these vulnerabilities and protect our cloud infrastructure.
+
+2. DETECTED SECURITY ISSUES
+------------------------------------------------------------
+Severity     | Event / Action         | Risk Summary
+-------------+------------------------+-------------------------------
+CRITICAL     | ConsoleLogin           | Root account console login occurred w...
+CRITICAL     | PutUserPolicy          | User 'temp-contractor' attached a pol...
+HIGH         | DeleteSecurityGroup    | Destructive action 'DeleteSecurityGro...
+
+3. RECOMMENDED ACTIONS AND NEXT STEPS
+------------------------------------------------------------
+[1] URGENCY: IMMEDIATE
+    Action: Enable Multi-Factor Authentication (MFA) on the Root Account.
+    Impact: Addresses threat associated with ConsoleLogin
+    Details: Log into the root account, navigate to IAM Security Credentials, and set up a hardware or virtual MFA device to prevent unauthorized logins.
+
+[2] URGENCY: IMMEDIATE
+    Action: Change the Root Account password.
+    Impact: Addresses threat associated with ConsoleLogin
+    Details: If an unauthorized login occurred, change the root password immediately using a strong, unique, randomly-generated passphrase.
+
+[3] URGENCY: IMMEDIATE
+    Action: Revoke the wildcard administrative policy.
+    Impact: Addresses threat associated with PutUserPolicy
+    Details: Navigate to the IAM policy settings for user 'temp-contractor' and remove the custom policy granting '*:*' full administrative access.
+
+[4] URGENCY: IMMEDIATE
+    Action: Audit and rotate the credentials of this user.
+    Impact: Addresses threat associated with PutUserPolicy
+    Details: Temporarily deactivate the access keys and console password of 'temp-contractor' until the owner of the account is verified.
+
+[5] URGENCY: IMMEDIATE
+    Action: Verify and restore missing network access rules.
+    Impact: Addresses threat associated with DeleteSecurityGroup
+    Details: Confirm if any resources were broken by the security group deletion. Recreate the security group and re-apply firewall rules if needed.
+
+[6] URGENCY: HIGH
+    Action: Avoid using the Root account for daily operations.
+    Impact: Addresses threat associated with ConsoleLogin
+    Details: Create individual IAM users with limited administrative privileges and lock away the root credentials.
+
+[7] URGENCY: HIGH
+    Action: Investigate the IAM user who performed the deletion.
+    Impact: Addresses threat associated with DeleteSecurityGroup
+    Details: Check if user 'unknown-api-service' acted intentionally. If the activity was unauthorized, immediately revoke their active sessions and rotate access keys.
+
+[8] URGENCY: MEDIUM
+    Action: Implement IAM Permissions Boundaries.
+    Impact: Addresses threat associated with PutUserPolicy
+    Details: Use permissions boundaries or Service Control Policies (SCPs) to restrict users from escalating their own privileges in the future.
+
+[9] URGENCY: MEDIUM
+    Action: Restrict Security Group deletion permissions.
+    Impact: Addresses threat associated with DeleteSecurityGroup
+    Details: Update IAM policies to only allow senior administrators or automation systems to delete critical networking resources.
+
+============================================================
+Report generated locally via template fallback.
